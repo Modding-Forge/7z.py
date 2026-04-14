@@ -17,3 +17,4 @@ res/single_out/
 # IDE
 .vscode/
 .idea/
+*.code-workspace
