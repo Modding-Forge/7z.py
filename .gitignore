@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+*.egg-info/
+dist/
+build/
+
+# uv
+uv.lock
+
+# Example script output
+example_output/
+res/single_out/
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "7z.py"
+version = "1.0.0"
+description = "Python ctypes interface for 7z.dll (7-Zip archive library)"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.14"
+authors = [
+    { name = "Modding Forge", email = "contact@modding-forge.com" },
+]
+keywords = ["7zip", "7z", "archive", "compression", "ctypes"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: System :: Archiving :: Compression",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Modding-Forge/7z.py"
+Repository = "https://github.com/Modding-Forge/7z.py"
+"Bug Tracker" = "https://github.com/Modding-Forge/7z.py/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-mock>=3.0",
+    "pytest-cov>=5.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mf_7z"]
+hooks.custom.path = "hatch_build.py"
+
+[tool.pyright]
+pythonVersion = "3.14"
+typeCheckingMode = "strict"
+include = ["src", "tests"]
+
+[tool.ruff]
+line-length = 90
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["UP045"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+log_cli = true
+log_cli_level = "DEBUG"
+addopts = "-vv"

@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Run pytest
+        run: uv run pytest tests/ -v
+
+  build:
+    name: Build wheel (${{ matrix.plat }})
+    runs-on: windows-latest
+    needs: test
+    strategy:
+      matrix:
+        plat: [win_amd64, win32, win_arm64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Build wheel
+        run: uv build --wheel
+        env:
+          WHEEL_PLAT: ${{ matrix.plat }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ matrix.plat }}
+          path: dist/*.whl
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write   # required for OIDC Trusted Publisher
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheel-*
+          merge-multiple: true
+          path: dist/
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Publish
+        run: uv publish
+
+  publish-github:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheel-*
+          merge-multiple: true
+          path: dist/
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.whl
+          generate_release_notes: true
