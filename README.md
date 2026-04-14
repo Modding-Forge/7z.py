@@ -5,7 +5,7 @@ password protection and real-time progress callbacks - all via the native
 7-Zip COM interface, no subprocess required.
 
 > **Windows only** - requires a 7z.dll for the matching architecture.
-> Bundles NanaZip's 7z.dll for x64, x86, and ARM64.
+> Bundles 7z.dll for x64, x86, and ARM64.
 
 ---
 
@@ -15,7 +15,7 @@ password protection and real-time progress callbacks - all via the native
 pip install 7z.py
 ```
 
-Python 3.14+ and Windows are required.
+Python 3.12+ and Windows are required.
 
 ---
 
