@@ -17,7 +17,7 @@ from py7z.exceptions import ArchiveOpenError
 
 class TestArchiveReader:
     """
-    Tests ``py7z.reader.ArchiveReader``.
+    Tests `py7z.reader.ArchiveReader`.
     """
 
     def test_import(self) -> None:

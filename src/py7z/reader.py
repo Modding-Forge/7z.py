@@ -87,7 +87,7 @@ _GET_ARCHIVE_PROPERTY_FUNC = com_method(
 
 class ArchiveReader:
     """
-    High-level wrapper around ``IInArchive`` for reading 7-Zip archives.
+    High-level wrapper around `IInArchive` for reading 7-Zip archives.
 
     Opens the archive on construction and closes it when the object
     is used as a context manager or when :meth:`close` is called.
@@ -124,7 +124,7 @@ class ArchiveReader:
 
         Raises:
             ArchiveFormatError: If the file extension is not recognised.
-            ArchiveOpenError: If ``IInArchive::Open`` fails.
+            ArchiveOpenError: If `IInArchive::Open` fails.
             DllLoadError: If the DLL cannot be loaded.
             FileNotFoundError: If *path* does not exist.
         """
@@ -140,7 +140,7 @@ class ArchiveReader:
 
     def _open(self) -> None:
         """
-        Creates the ``IInArchive`` COM object and calls ``Open``.
+        Creates the `IInArchive` COM object and calls `Open`.
 
         Raises:
             ArchiveFormatError: Unknown extension.
@@ -184,7 +184,7 @@ class ArchiveReader:
 
     def __enter__(self) -> ArchiveReader:
         """
-        Returns *self* when entering a ``with`` block.
+        Returns *self* when entering a `with` block.
 
         Returns:
             ArchiveReader: This instance.
@@ -194,7 +194,7 @@ class ArchiveReader:
 
     def __exit__(self, *_: object) -> None:
         """
-        Closes the archive on leaving a ``with`` block.
+        Closes the archive on leaving a `with` block.
         """
 
         self.close()
@@ -232,7 +232,7 @@ class ArchiveReader:
             prop_id (int): Property ID constant.
 
         Returns:
-            object: Python value (or ``None`` for VT_EMPTY).
+            object: Python value (or `None` for VT_EMPTY).
         """
 
         assert self._archive is not None
@@ -305,7 +305,7 @@ class ArchiveReader:
         Args:
             output_dir (Path): Destination directory (created if absent).
             progress_cb (Optional[ProgressCallback]): Optional progress
-                callback ``(completed, total) -> None``.
+                callback `(completed, total) -> None`.
             overwrite (bool): Whether to overwrite existing files.
 
         Raises:
@@ -415,17 +415,17 @@ class ArchiveReader:
         file_name_provider: Optional[Callable[[int], str]] = None,
     ) -> None:
         """
-        Calls ``IInArchive::Extract`` with an ``ExtractCallback``.
+        Calls `IInArchive::Extract` with an `ExtractCallback`.
 
         Args:
             stream_factory: Stream factory callable.
             progress_cb (Optional[ProgressCallback]): Progress callback.
-            all_items (bool): If ``True`` extract all items (indices=NULL).
+            all_items (bool): If `True` extract all items (indices=NULL).
             indices (Optional[ctypes.Array]): Array of indices (if not all).
             count (int): Number of indices.
             total_files (int): Total file count passed to the callback.
             file_name_provider (Optional[Callable[[int], str]]): Maps
-                item index to archive path for ``current_file``.
+                item index to archive path for `current_file`.
 
         Raises:
             ExtractionError: On failure.
@@ -471,7 +471,7 @@ class ArchiveReader:
             prop_id (int): Property ID constant.
 
         Returns:
-            object: Python value or ``None``.
+            object: Python value or `None`.
         """
 
         assert self._archive is not None
@@ -491,13 +491,13 @@ class ArchiveReader:
 
 def _hr_succeeded(hr: int) -> bool:
     """
-    Returns ``True`` when an HRESULT indicates success.
+    Returns `True` when an HRESULT indicates success.
 
     Args:
         hr (int): HRESULT value.
 
     Returns:
-        bool: ``True`` if success.
+        bool: `True` if success.
     """
 
     return (hr & 0x80000000) == 0

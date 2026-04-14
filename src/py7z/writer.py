@@ -50,7 +50,7 @@ from ._guids import IID_ISetProperties
 
 class ArchiveWriter:
     """
-    High-level wrapper around ``IOutArchive`` for creating 7-Zip archives.
+    High-level wrapper around `IOutArchive` for creating 7-Zip archives.
 
     Usage::
 
@@ -82,13 +82,13 @@ class ArchiveWriter:
         Configures the archive writer.
 
         Args:
-            output_path (Path): Destination ``.7z`` (or other format) path.
+            output_path (Path): Destination `.7z` (or other format) path.
             format_clsid (Optional[GUID]): Override the format CLSID.
-                When ``None`` the CLSID is derived from the file extension,
+                When `None` the CLSID is derived from the file extension,
                 and defaults to 7z when unknown.
             password (Optional[str]): Encryption password.
             compression_level (int): Compression level 0-9 (default 5).
-            solid (bool): Enable solid compression (default ``True``).
+            solid (bool): Enable solid compression (default `True`).
             dll_path (Optional[Path]): Custom path to 7z.dll.
         """
 
@@ -108,7 +108,7 @@ class ArchiveWriter:
 
     def __enter__(self) -> "ArchiveWriter":
         """
-        Returns *self* when entering a ``with`` block.
+        Returns *self* when entering a `with` block.
 
         Returns:
             ArchiveWriter: This instance.
@@ -118,7 +118,7 @@ class ArchiveWriter:
 
     def __exit__(self, *_: object) -> None:
         """
-        Flushes the archive when leaving a ``with`` block.
+        Flushes the archive when leaving a `with` block.
 
         Does nothing if :meth:`write` was already called explicitly.
         """
@@ -195,7 +195,7 @@ class ArchiveWriter:
 
         Args:
             progress_cb (Optional[ProgressCallback]): Optional progress
-                callback ``(completed, total) -> None``.
+                callback `(completed, total) -> None`.
 
         Raises:
             HResultError: If a COM operation fails.
@@ -229,12 +229,12 @@ class ArchiveWriter:
 
     def _apply_properties(self, archive: COMPtr) -> None:
         """
-        Calls ``ISetProperties::SetProperties`` to configure compression.
+        Calls `ISetProperties::SetProperties` to configure compression.
 
         Falls back silently if the interface is not supported by the handler.
 
         Args:
-            archive (COMPtr): The ``IOutArchive`` COM pointer.
+            archive (COMPtr): The `IOutArchive` COM pointer.
         """
 
         from ._propvariant import PROPVARIANT, VT_UI4

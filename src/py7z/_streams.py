@@ -64,7 +64,7 @@ _STREAM_SEEK_END: int = 2
 
 class FileInStream(PyCOMObject):
     """
-    COM implementation of ``IInStream`` backed by a ``pathlib.Path``.
+    COM implementation of `IInStream` backed by a `pathlib.Path`.
 
     Opens the file in binary-read mode on construction and closes it
     when the object is destroyed.
@@ -113,7 +113,7 @@ class FileInStream(PyCOMObject):
         processed_ptr: ctypes.POINTER(ctypes.c_uint32),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``ISequentialInStream::Read``.
+        Implements `ISequentialInStream::Read`.
 
         Args:
             this (ctypes.c_void_p): Ignored COM *this* pointer.
@@ -122,7 +122,7 @@ class FileInStream(PyCOMObject):
             processed_ptr: Pointer to receive actual bytes read.
 
         Returns:
-            int: ``S_OK`` on success, HRESULT error code otherwise.
+            int: `S_OK` on success, HRESULT error code otherwise.
         """
 
         try:
@@ -146,7 +146,7 @@ class FileInStream(PyCOMObject):
         new_pos_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IInStream::Seek``.
+        Implements `IInStream::Seek`.
 
         Args:
             this (ctypes.c_void_p): Ignored COM *this* pointer.
@@ -155,7 +155,7 @@ class FileInStream(PyCOMObject):
             new_pos_ptr: Pointer to receive the new file position.
 
         Returns:
-            int: ``S_OK`` on success, HRESULT error code otherwise.
+            int: `S_OK` on success, HRESULT error code otherwise.
         """
 
         whence_map: dict[int, int] = {
@@ -181,8 +181,8 @@ class FileInStream(PyCOMObject):
 
 class BytesInStream(PyCOMObject):
     """
-    COM implementation of ``IInStream`` backed by a ``bytes`` buffer
-    via ``io.BytesIO``.
+    COM implementation of `IInStream` backed by a `bytes` buffer
+    via `io.BytesIO`.
     """
 
     _iids = [IID_IInStream, IID_ISequentialInStream]
@@ -212,7 +212,7 @@ class BytesInStream(PyCOMObject):
         processed_ptr: ctypes.POINTER(ctypes.c_uint32),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``ISequentialInStream::Read``.
+        Implements `ISequentialInStream::Read`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -221,7 +221,7 @@ class BytesInStream(PyCOMObject):
             processed_ptr: Receives actual byte count.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         try:
@@ -243,7 +243,7 @@ class BytesInStream(PyCOMObject):
         new_pos_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IInStream::Seek``.
+        Implements `IInStream::Seek`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -252,7 +252,7 @@ class BytesInStream(PyCOMObject):
             new_pos_ptr: Receives new position.
 
         Returns:
-            int: ``S_OK`` or error HRESULT.
+            int: `S_OK` or error HRESULT.
         """
 
         whence_map: dict[int, int] = {0: 0, 1: 1, 2: 2}
@@ -274,7 +274,7 @@ class BytesInStream(PyCOMObject):
 
 class BytesOutStream(PyCOMObject):
     """
-    COM implementation of ``IOutStream`` that collects data in memory.
+    COM implementation of `IOutStream` that collects data in memory.
 
     After extraction, call :meth:`getvalue` to retrieve the bytes.
     """
@@ -314,7 +314,7 @@ class BytesOutStream(PyCOMObject):
         processed_ptr: ctypes.POINTER(ctypes.c_uint32),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``ISequentialOutStream::Write``.
+        Implements `ISequentialOutStream::Write`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -323,7 +323,7 @@ class BytesOutStream(PyCOMObject):
             processed_ptr: Receives actual byte count written.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         try:
@@ -344,7 +344,7 @@ class BytesOutStream(PyCOMObject):
         new_pos_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IOutStream::Seek``.
+        Implements `IOutStream::Seek`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -353,7 +353,7 @@ class BytesOutStream(PyCOMObject):
             new_pos_ptr: Receives new position.
 
         Returns:
-            int: ``S_OK`` or error HRESULT.
+            int: `S_OK` or error HRESULT.
         """
 
         whence_map: dict[int, int] = {0: 0, 1: 1, 2: 2}
@@ -372,14 +372,14 @@ class BytesOutStream(PyCOMObject):
         self, this: ctypes.c_void_p, new_size: int
     ) -> int:
         """
-        Implements ``IOutStream::SetSize`` by truncating/extending the buffer.
+        Implements `IOutStream::SetSize` by truncating/extending the buffer.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             new_size (int): Desired size in bytes.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         try:
@@ -398,7 +398,7 @@ class BytesOutStream(PyCOMObject):
 
 class FileOutStream(PyCOMObject):
     """
-    COM implementation of ``IOutStream`` that writes to a file on disk.
+    COM implementation of `IOutStream` that writes to a file on disk.
 
     The file is opened (and created/truncated) on construction.
     """
@@ -454,7 +454,7 @@ class FileOutStream(PyCOMObject):
         processed_ptr: ctypes.POINTER(ctypes.c_uint32),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``ISequentialOutStream::Write``.
+        Implements `ISequentialOutStream::Write`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -463,7 +463,7 @@ class FileOutStream(PyCOMObject):
             processed_ptr: Receives actual byte count.
 
         Returns:
-            int: ``S_OK`` or error HRESULT.
+            int: `S_OK` or error HRESULT.
         """
 
         try:
@@ -486,7 +486,7 @@ class FileOutStream(PyCOMObject):
         new_pos_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IOutStream::Seek``.
+        Implements `IOutStream::Seek`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -495,7 +495,7 @@ class FileOutStream(PyCOMObject):
             new_pos_ptr: Receives new position.
 
         Returns:
-            int: ``S_OK`` or error HRESULT.
+            int: `S_OK` or error HRESULT.
         """
 
         whence_map: dict[int, int] = {0: 0, 1: 1, 2: 2}
@@ -512,14 +512,14 @@ class FileOutStream(PyCOMObject):
 
     def _SetSize(self, this: ctypes.c_void_p, new_size: int) -> int:
         """
-        Implements ``IOutStream::SetSize`` via ``os.truncate``.
+        Implements `IOutStream::SetSize` via `os.truncate`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             new_size (int): New file size in bytes.
 
         Returns:
-            int: ``S_OK`` or error HRESULT.
+            int: `S_OK` or error HRESULT.
         """
 
         try:

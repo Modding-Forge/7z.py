@@ -33,7 +33,7 @@ KPID_SYMLINK: int = 54
 class ArchiveEntry(BaseModel):
     """
     Immutable model representing a single entry in an archive as
-    reported by ``IInArchive::GetProperty``.
+    reported by `IInArchive::GetProperty`.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -45,7 +45,7 @@ class ArchiveEntry(BaseModel):
     """Archive-relative path of the entry (may use / or \\ as separator)."""
 
     is_directory: bool
-    """``True`` if the entry is a directory."""
+    """`True` if the entry is a directory."""
 
     size: int
     """Uncompressed size in bytes (0 for directories)."""
@@ -54,28 +54,28 @@ class ArchiveEntry(BaseModel):
     """Compressed size in bytes (0 when unavailable)."""
 
     crc: Optional[int]
-    """CRC-32 checksum, or ``None`` if not stored in the archive."""
+    """CRC-32 checksum, or `None` if not stored in the archive."""
 
     attributes: int
     """Windows file attributes bitmask."""
 
     created_at: Optional[datetime.datetime]
-    """File creation timestamp (UTC), or ``None`` if not stored."""
+    """File creation timestamp (UTC), or `None` if not stored."""
 
     accessed_at: Optional[datetime.datetime]
-    """File last-access timestamp (UTC), or ``None`` if not stored."""
+    """File last-access timestamp (UTC), or `None` if not stored."""
 
     modified_at: Optional[datetime.datetime]
-    """File last-modification timestamp (UTC), or ``None`` if not stored."""
+    """File last-modification timestamp (UTC), or `None` if not stored."""
 
     method: Optional[str]
-    """Compression method name (e.g. ``'LZMA2'``), or ``None``."""
+    """Compression method name (e.g. `'LZMA2'`), or `None`."""
 
     encrypted: bool
-    """``True`` if the entry is encrypted."""
+    """`True` if the entry is encrypted."""
 
     is_anti: bool
-    """``True`` if the entry is an anti-item (deletion marker)."""
+    """`True` if the entry is an anti-item (deletion marker)."""
 
     @property
     def name(self) -> str:
@@ -94,7 +94,7 @@ class ArchiveEntry(BaseModel):
         The lower-cased file extension including the leading dot.
 
         Returns:
-            str: Extension, e.g. ``'.txt'``, or ``''`` for no extension.
+            str: Extension, e.g. `'.txt'`, or `''` for no extension.
         """
 
         return Path(self.path.replace("\\", "/")).suffix.lower()
@@ -108,17 +108,17 @@ class ArchiveEntryInput(BaseModel):
 
     source_path: Optional[Path]
     """
-    Absolute path to the source file on disk, or ``None`` for directories.
+    Absolute path to the source file on disk, or `None` for directories.
     """
 
     archive_path: str
     """Path inside the archive (using forward slashes)."""
 
     is_directory: bool = False
-    """``True`` if the entry represents a directory."""
+    """`True` if the entry represents a directory."""
 
     size: int = 0
-    """Uncompressed size in bytes (filled automatically from ``source_path``)."""
+    """Uncompressed size in bytes (filled automatically from `source_path`)."""
 
     attributes: int = 0x20
     """Windows file attributes (default: FILE_ATTRIBUTE_ARCHIVE)."""
@@ -133,10 +133,10 @@ class ArchiveEntryInput(BaseModel):
         base: Optional[Path] = None,
     ) -> "ArchiveEntryInput":
         """
-        Creates an ``ArchiveEntryInput`` from a file path.
+        Creates an `ArchiveEntryInput` from a file path.
 
         The *archive_path* is computed as the path relative to *base*;
-        if *base* is ``None`` the file name only is used.
+        if *base* is `None` the file name only is used.
 
         Args:
             source (Path): Absolute path to the file.

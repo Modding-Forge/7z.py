@@ -19,11 +19,11 @@ class ProgressInfo(BaseModel):
     Snapshot of the current archive operation progress.
 
     An instance is passed to the user-defined progress callback on every
-    significant update from ``IProgress::SetCompleted``.  The same object
+    significant update from `IProgress::SetCompleted`.  The same object
     is reused across calls; do not retain references across invocations.
 
-    The field layout mirrors NanaZip's ``CProgressSync`` fields as seen
-    in ``ProgressDialog2.h``.
+    The field layout mirrors NanaZip's `CProgressSync` fields as seen
+    in `ProgressDialog2.h`.
     """
 
     model_config = ConfigDict(validate_assignment=True)
@@ -50,13 +50,13 @@ class ProgressInfo(BaseModel):
     """Average throughput in bytes per second."""
 
     remaining_seconds: Optional[float] = None
-    """Estimated seconds until completion, or ``None`` if not calculable."""
+    """Estimated seconds until completion, or `None` if not calculable."""
 
     percent: float = 0.0
-    """Completion percentage in the range ``[0.0, 100.0]``."""
+    """Completion percentage in the range `[0.0, 100.0]`."""
 
     is_compressing: bool = False
-    """``True`` when creating/updating an archive; ``False`` when extracting."""
+    """`True` when creating/updating an archive; `False` when extracting."""
 
     @property
     def elapsed(self) -> datetime.timedelta:
@@ -72,10 +72,10 @@ class ProgressInfo(BaseModel):
     @property
     def remaining(self) -> Optional[datetime.timedelta]:
         """
-        Estimated remaining time, or ``None`` if not yet calculable.
+        Estimated remaining time, or `None` if not yet calculable.
 
         Returns:
-            Optional[datetime.timedelta]: Remaining time or ``None``.
+            Optional[datetime.timedelta]: Remaining time or `None`.
         """
 
         if self.remaining_seconds is None:
@@ -85,7 +85,7 @@ class ProgressInfo(BaseModel):
     @property
     def speed_human(self) -> str:
         """
-        Human-readable throughput string (e.g. ``'12.3 MB/s'``).
+        Human-readable throughput string (e.g. `'12.3 MB/s'`).
 
         Returns:
             str: Formatted speed string.

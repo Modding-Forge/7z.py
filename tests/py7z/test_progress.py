@@ -9,7 +9,7 @@ import pytest
 
 class TestProgress:
     """
-    Tests ``py7z.progress.ProgressInfo``.
+    Tests `py7z.progress.ProgressInfo`.
     """
 
     def test_percent_calculation(self) -> None:

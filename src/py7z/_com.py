@@ -26,13 +26,13 @@ STG_E_INVALIDFUNCTION: int = 0x80030001
 
 def succeeded(hr: int) -> bool:
     """
-    Returns ``True`` when an HRESULT indicates success.
+    Returns `True` when an HRESULT indicates success.
 
     Args:
         hr (int): HRESULT value (unsigned 32-bit integer).
 
     Returns:
-        bool: ``True`` if ``hr >= 0``, ``False`` otherwise.
+        bool: `True` if `hr >= 0`, `False` otherwise.
     """
 
     return (hr & 0x80000000) == 0
@@ -40,14 +40,14 @@ def succeeded(hr: int) -> bool:
 
 def check_hr(hr: int, msg: str = "") -> None:
     """
-    Raises ``HResultError`` when the HRESULT is a failure code.
+    Raises `HResultError` when the HRESULT is a failure code.
 
     Args:
         hr (int): HRESULT value.
         msg (str): Optional context string for the error message.
 
     Raises:
-        HResultError: If ``hr`` indicates failure.
+        HResultError: If `hr` indicates failure.
     """
 
     from .exceptions import HResultError
@@ -76,8 +76,8 @@ def com_method(
     Creates a WINFUNCTYPE for a COM vtable slot.
 
     Args:
-        restype: Return type (usually ``ctypes.HRESULT`` or ``ctypes.c_ulong``).
-        *argtypes: Argument types in order (``this`` pointer first).
+        restype: Return type (usually `ctypes.HRESULT` or `ctypes.c_ulong`).
+        *argtypes: Argument types in order (`this` pointer first).
 
     Returns:
         type[ctypes._FuncPtr]: The WINFUNCTYPE function pointer type.
@@ -108,10 +108,10 @@ class COMPtr:
     """
     Reference-counted wrapper around a raw COM object pointer.
 
-    Calls ``AddRef`` on construction and ``Release`` on destruction.
+    Calls `AddRef` on construction and `Release` on destruction.
     Vtable calling is performed by using the vtable offset helpers.
 
-    The vtable layout is a contiguous array of ``void*`` starting with
+    The vtable layout is a contiguous array of `void*` starting with
     the three IUnknown slots (QueryInterface=0, AddRef=1, Release=2).
     """
 
@@ -170,7 +170,7 @@ class COMPtr:
 
     def query_interface(self, iid: GUID) -> "COMPtr":
         """
-        Calls ``IUnknown::QueryInterface`` and returns a new ``COMPtr``.
+        Calls `IUnknown::QueryInterface` and returns a new `COMPtr`.
 
         Args:
             iid (GUID): The interface ID to query for.
@@ -224,8 +224,8 @@ class PyCOMObject:
     Base class for Python-side COM object implementations (callbacks).
 
     Subclasses provide vtable method implementations.  The vtable is
-    assembled once per class from the ``_vtable_methods`` class variable,
-    which is a list of ``(name, WINFUNCTYPE)`` tuples in vtable order
+    assembled once per class from the `_vtable_methods` class variable,
+    which is a list of `(name, WINFUNCTYPE)` tuples in vtable order
     (starting with QueryInterface/AddRef/Release at indices 0-2 which
     are provided automatically).
 
@@ -332,7 +332,7 @@ class PyCOMObject:
     @property
     def as_void_p(self) -> ctypes.c_void_p:
         """
-        Returns the COM object as a ``c_void_p`` suitable for passing
+        Returns the COM object as a `c_void_p` suitable for passing
         to 7z.dll methods.
 
         Returns:

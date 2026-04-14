@@ -37,7 +37,7 @@ _ARCH_DIR_MAP: dict[str, str] = {
     "arm64": "arm64",
     "aarch64": "arm64",
 }
-"""Maps ``platform.machine()`` values to bundled DLL sub-directories."""
+"""Maps `platform.machine()` values to bundled DLL sub-directories."""
 
 
 def _resolve_bundled_dll() -> Path:
@@ -45,7 +45,7 @@ def _resolve_bundled_dll() -> Path:
     Resolves the path to the bundled 7z.dll for the current architecture.
 
     Checks the package-relative path first (installed wheel) and falls
-    back to the project-root ``res/`` tree (editable / development install).
+    back to the project-root `res/` tree (editable / development install).
 
     Returns:
         Path: Resolved path to 7z.dll (may not exist yet at import time).
@@ -75,7 +75,7 @@ def load_dll(path: Optional[Path] = None) -> ctypes.WinDLL:
 
     Args:
         path (Optional[Path]): Path to the 7z.dll to load.  When
-            ``None`` the bundled DLL from the ``res/`` folder is used.
+            `None` the bundled DLL from the `res/` folder is used.
 
     Returns:
         ctypes.WinDLL: The loaded DLL handle.
@@ -180,18 +180,18 @@ def create_object(
     dll_path: Optional[Path] = None,
 ) -> COMPtr:
     """
-    Calls ``CreateObject`` and returns a ``COMPtr`` for the new object.
+    Calls `CreateObject` and returns a `COMPtr` for the new object.
 
     Args:
         clsid (GUID): The class ID of the archive handler to create.
-        iid (GUID): The interface ID to retrieve (e.g. ``IID_IInArchive``).
+        iid (GUID): The interface ID to retrieve (e.g. `IID_IInArchive`).
         dll_path (Optional[Path]): Optional path to the 7z.dll.
 
     Returns:
-        COMPtr: Wrapped COM pointer with a ``Release`` on finalisation.
+        COMPtr: Wrapped COM pointer with a `Release` on finalisation.
 
     Raises:
-        HResultError: If ``CreateObject`` returns a failure HRESULT.
+        HResultError: If `CreateObject` returns a failure HRESULT.
         DllLoadError: If the DLL cannot be loaded.
     """
 
@@ -211,14 +211,14 @@ def create_in_archive(
     dll_path: Optional[Path] = None,
 ) -> COMPtr:
     """
-    Creates an ``IInArchive`` COM object for the given format CLSID.
+    Creates an `IInArchive` COM object for the given format CLSID.
 
     Args:
-        clsid (GUID): Format class ID (e.g. ``CLSID_7z``).
+        clsid (GUID): Format class ID (e.g. `CLSID_7z`).
         dll_path (Optional[Path]): Optional path to the 7z.dll.
 
     Returns:
-        COMPtr: ``IInArchive`` interface pointer.
+        COMPtr: `IInArchive` interface pointer.
 
     Raises:
         HResultError: On creation failure.
@@ -233,14 +233,14 @@ def create_out_archive(
     dll_path: Optional[Path] = None,
 ) -> COMPtr:
     """
-    Creates an ``IOutArchive`` COM object for the given format CLSID.
+    Creates an `IOutArchive` COM object for the given format CLSID.
 
     Args:
-        clsid (GUID): Format class ID (e.g. ``CLSID_7z``).
+        clsid (GUID): Format class ID (e.g. `CLSID_7z`).
         dll_path (Optional[Path]): Optional path to the 7z.dll.
 
     Returns:
-        COMPtr: ``IOutArchive`` interface pointer.
+        COMPtr: `IOutArchive` interface pointer.
 
     Raises:
         HResultError: On creation failure.
@@ -281,7 +281,7 @@ def get_handler_property(
 
     Args:
         index (int): Zero-based format index.
-        prop_id (int): Property ID (see ``SevenZipHandlerPropertyType``).
+        prop_id (int): Property ID (see `SevenZipHandlerPropertyType`).
         dll_path (Optional[Path]): Optional path to the 7z.dll.
 
     Returns:

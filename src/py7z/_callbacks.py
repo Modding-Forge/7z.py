@@ -100,7 +100,7 @@ _sys_alloc_string.argtypes = [ctypes.c_wchar_p]
 
 def _alloc_bstr(text: str) -> int:
     """
-    Allocates a Windows BSTR via ``SysAllocString``.
+    Allocates a Windows BSTR via `SysAllocString`.
 
     Args:
         text (str): The string to allocate.
@@ -117,11 +117,11 @@ def _update_timing(info: ProgressInfo, start: float) -> None:
     Recomputes elapsed, speed, remaining, and percent on *info* in place.
 
     Mirrors the calculation from NanaZip's
-    ``CProgressDialog::UpdateStatInfo`` in ``ProgressDialog2.cpp``.
+    `CProgressDialog::UpdateStatInfo` in `ProgressDialog2.cpp`.
 
     Args:
         info (ProgressInfo): The progress object to update.
-        start (float): ``time.perf_counter()`` value at operation start.
+        start (float): `time.perf_counter()` value at operation start.
     """
 
     elapsed: float = time.perf_counter() - start
@@ -157,10 +157,10 @@ def _update_timing(info: ProgressInfo, start: float) -> None:
 
 class OpenCallback(PyCOMObject):
     """
-    COM implementation of ``IArchiveOpenCallback`` and, optionally,
-    ``ICryptoGetTextPassword``.
+    COM implementation of `IArchiveOpenCallback` and, optionally,
+    `ICryptoGetTextPassword`.
 
-    Passed to ``IInArchive::Open`` to report progress and provide
+    Passed to `IInArchive::Open` to report progress and provide
     a password for encrypted archives.
     """
 
@@ -177,7 +177,7 @@ class OpenCallback(PyCOMObject):
 
         Args:
             password (Optional[str]): Password for encrypted archives,
-                or ``None`` if no password is required.
+                or `None` if no password is required.
         """
 
         self._password = password
@@ -196,7 +196,7 @@ class OpenCallback(PyCOMObject):
         bytes_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IArchiveOpenCallback::SetTotal``.
+        Implements `IArchiveOpenCallback::SetTotal`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -204,7 +204,7 @@ class OpenCallback(PyCOMObject):
             bytes_ptr: Pointer to total byte count.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         return S_OK
@@ -216,7 +216,7 @@ class OpenCallback(PyCOMObject):
         bytes_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IArchiveOpenCallback::SetCompleted``.
+        Implements `IArchiveOpenCallback::SetCompleted`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -224,7 +224,7 @@ class OpenCallback(PyCOMObject):
             bytes_ptr: Pointer to processed byte count.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         return S_OK
@@ -235,14 +235,14 @@ class OpenCallback(PyCOMObject):
         password_ptr: ctypes.POINTER(ctypes.c_wchar_p),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``ICryptoGetTextPassword::CryptoGetTextPassword``.
+        Implements `ICryptoGetTextPassword::CryptoGetTextPassword`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             password_ptr: Pointer to receive the BSTR password.
 
         Returns:
-            int: ``S_OK`` or ``E_ABORT`` if no password is set.
+            int: `S_OK` or `E_ABORT` if no password is set.
         """
 
         if self._password is None:
@@ -267,18 +267,18 @@ update.  The same instance is reused across calls - do not store it.
 StreamFactory = Callable[[int], Optional[object]]
 """
 Factory that maps a zero-based item index to an output stream or
-``None`` to skip the item.
+`None` to skip the item.
 """
 
 
 class ExtractCallback(PyCOMObject):
     """
-    COM implementation of ``IArchiveExtractCallback`` and, optionally,
-    ``ICryptoGetTextPassword``.
+    COM implementation of `IArchiveExtractCallback` and, optionally,
+    `ICryptoGetTextPassword`.
 
     The *stream_factory* callable receives the item index and returns
     either a :class:`~py7z._streams.BytesOutStream` /
-    :class:`~py7z._streams.FileOutStream` instance or ``None`` to skip
+    :class:`~py7z._streams.FileOutStream` instance or `None` to skip
     the item.
     """
 
@@ -313,13 +313,13 @@ class ExtractCallback(PyCOMObject):
 
         Args:
             stream_factory (StreamFactory): Callable that maps item index
-                to an output stream (or ``None`` to skip).
+                to an output stream (or `None` to skip).
             progress_cb (Optional[ProgressCallback]): Optional progress
                 notification callback.
             password (Optional[str]): Password for encrypted entries.
             total_files (int): Total number of items to extract.
             file_name_provider (Optional[Callable[[int], str]]): Maps
-                item index to its archive path for ``current_file``.
+                item index to its archive path for `current_file`.
         """
 
         self._stream_factory = stream_factory
@@ -346,14 +346,14 @@ class ExtractCallback(PyCOMObject):
         self, this: ctypes.c_void_p, total: int
     ) -> int:
         """
-        Implements ``IProgress::SetTotal``.
+        Implements `IProgress::SetTotal`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             total (int): Total bytes to process.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         self._info.total_bytes = total
@@ -366,7 +366,7 @@ class ExtractCallback(PyCOMObject):
         completed_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IProgress::SetCompleted``.
+        Implements `IProgress::SetCompleted`.
 
         Updates speed, elapsed, remaining, and percent, then fires
         the progress callback.
@@ -376,7 +376,7 @@ class ExtractCallback(PyCOMObject):
             completed_ptr: Pointer to completed byte count.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         if not completed_ptr:
@@ -399,7 +399,7 @@ class ExtractCallback(PyCOMObject):
         ask_extract_mode: int,
     ) -> int:
         """
-        Implements ``IArchiveExtractCallback::GetStream``.
+        Implements `IArchiveExtractCallback::GetStream`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -408,7 +408,7 @@ class ExtractCallback(PyCOMObject):
             ask_extract_mode (int): 0=extract, 1=test, 2=skip.
 
         Returns:
-            int: ``S_OK`` to extract, ``S_FALSE`` to skip.
+            int: `S_OK` to extract, `S_FALSE` to skip.
         """
 
         self._current_index = index
@@ -440,17 +440,17 @@ class ExtractCallback(PyCOMObject):
         self, this: ctypes.c_void_p, ask_extract_mode: int
     ) -> int:
         """
-        Implements ``IArchiveExtractCallback::PrepareOperation``.
+        Implements `IArchiveExtractCallback::PrepareOperation`.
 
-        Updates ``current_file`` on the ProgressInfo using the index
-        stored by ``_GetStream`` and the file-name provider.
+        Updates `current_file` on the ProgressInfo using the index
+        stored by `_GetStream` and the file-name provider.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             ask_extract_mode (int): The operation mode.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         if (
@@ -469,9 +469,9 @@ class ExtractCallback(PyCOMObject):
         self, this: ctypes.c_void_p, operation_result: int
     ) -> int:
         """
-        Implements ``IArchiveExtractCallback::SetOperationResult``.
+        Implements `IArchiveExtractCallback::SetOperationResult`.
 
-        Increments ``completed_files``, fires the progress callback,
+        Increments `completed_files`, fires the progress callback,
         then stores any error.
 
         Args:
@@ -479,7 +479,7 @@ class ExtractCallback(PyCOMObject):
             operation_result (int): Result code for the current item.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         self._current_stream = None
@@ -510,14 +510,14 @@ class ExtractCallback(PyCOMObject):
         password_ptr: ctypes.POINTER(ctypes.c_wchar_p),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``ICryptoGetTextPassword::CryptoGetTextPassword``.
+        Implements `ICryptoGetTextPassword::CryptoGetTextPassword`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             password_ptr: Receives the BSTR password.
 
         Returns:
-            int: ``S_OK`` or ``E_ABORT``.
+            int: `S_OK` or `E_ABORT`.
         """
 
         if self._password is None:
@@ -545,7 +545,7 @@ class ExtractCallback(PyCOMObject):
 
 class UpdateCallback(PyCOMObject):
     """
-    COM implementation of ``IArchiveUpdateCallback`` for creating/updating
+    COM implementation of `IArchiveUpdateCallback` for creating/updating
     archives.
 
     Callers provide a list of
@@ -604,14 +604,14 @@ class UpdateCallback(PyCOMObject):
 
     def _SetTotal(self, this: ctypes.c_void_p, total: int) -> int:
         """
-        Implements ``IProgress::SetTotal``.
+        Implements `IProgress::SetTotal`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             total (int): Total byte count.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         self._info.total_bytes = total
@@ -624,7 +624,7 @@ class UpdateCallback(PyCOMObject):
         completed_ptr: ctypes.POINTER(ctypes.c_uint64),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IProgress::SetCompleted``.
+        Implements `IProgress::SetCompleted`.
 
         Updates speed, elapsed, remaining, and percent, then fires
         the progress callback.
@@ -634,7 +634,7 @@ class UpdateCallback(PyCOMObject):
             completed_ptr: Pointer to completed byte count.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         if not completed_ptr:
@@ -658,7 +658,7 @@ class UpdateCallback(PyCOMObject):
         index_in_archive_ptr: ctypes.POINTER(ctypes.c_uint32),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IArchiveUpdateCallback::GetUpdateItemInfo``.
+        Implements `IArchiveUpdateCallback::GetUpdateItemInfo`.
 
         All items are treated as new (no existing archive update).
 
@@ -670,7 +670,7 @@ class UpdateCallback(PyCOMObject):
             index_in_archive_ptr: Receives 0xFFFFFFFF (new item).
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         if new_data_ptr:
@@ -689,7 +689,7 @@ class UpdateCallback(PyCOMObject):
         pv_ptr: ctypes.c_void_p,
     ) -> int:
         """
-        Implements ``IArchiveUpdateCallback::GetProperty``.
+        Implements `IArchiveUpdateCallback::GetProperty`.
 
         Reads properties from the :class:`~py7z.entry.ArchiveEntryInput`
         at position *index*.
@@ -701,7 +701,7 @@ class UpdateCallback(PyCOMObject):
             pv_ptr: Pointer to a PROPVARIANT to fill.
 
         Returns:
-            int: ``S_OK`` or ``E_NOTIMPL``.
+            int: `S_OK` or `E_NOTIMPL`.
         """
 
         from ._propvariant import PROPVARIANT, VT_EMPTY
@@ -758,9 +758,9 @@ class UpdateCallback(PyCOMObject):
         in_stream_ptr: ctypes.POINTER(ctypes.c_void_p),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``IArchiveUpdateCallback::GetStream``.
+        Implements `IArchiveUpdateCallback::GetStream`.
 
-        Returns an ``ISequentialInStream`` for the file at *index*.
+        Returns an `ISequentialInStream` for the file at *index*.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -768,7 +768,7 @@ class UpdateCallback(PyCOMObject):
             in_stream_ptr: Receives the input stream COM pointer.
 
         Returns:
-            int: ``S_OK`` or ``S_FALSE`` to skip.
+            int: `S_OK` or `S_FALSE` to skip.
         """
 
         from ._streams import FileInStream
@@ -804,16 +804,16 @@ class UpdateCallback(PyCOMObject):
         self, this: ctypes.c_void_p, operation_result: int
     ) -> int:
         """
-        Implements ``IArchiveUpdateCallback::SetOperationResult``.
+        Implements `IArchiveUpdateCallback::SetOperationResult`.
 
-        Increments ``completed_files`` and fires the progress callback.
+        Increments `completed_files` and fires the progress callback.
 
         Args:
             this (ctypes.c_void_p): Ignored.
             operation_result (int): Result for the current item.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         self._info.completed_files += 1
@@ -833,7 +833,7 @@ class UpdateCallback(PyCOMObject):
         password_ptr: ctypes.POINTER(ctypes.c_wchar_p),  # type: ignore[valid-type]
     ) -> int:
         """
-        Implements ``ICryptoGetTextPassword2::CryptoGetTextPassword2``.
+        Implements `ICryptoGetTextPassword2::CryptoGetTextPassword2`.
 
         Args:
             this (ctypes.c_void_p): Ignored.
@@ -841,7 +841,7 @@ class UpdateCallback(PyCOMObject):
             password_ptr: Receives the BSTR password.
 
         Returns:
-            int: ``S_OK``.
+            int: `S_OK`.
         """
 
         if self._password is None:

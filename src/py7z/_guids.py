@@ -30,7 +30,7 @@ class GUID(ctypes.Structure):
 
         Args:
             guid_str (str): UUID string in the format
-                ``xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx``.
+                `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
 
         Returns:
             GUID: The parsed GUID structure.

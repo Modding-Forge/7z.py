@@ -14,7 +14,7 @@ from py7z.exceptions import ArchiveOpenError
 
 class TestArchiveWriter:
     """
-    Tests ``py7z.writer.ArchiveWriter``.
+    Tests `py7z.writer.ArchiveWriter`.
     """
 
     def test_import(self) -> None:

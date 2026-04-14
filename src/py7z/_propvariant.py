@@ -88,7 +88,7 @@ class PROPVARIANT(ctypes.Structure):
 
         Returns:
             Optional[bool | int | float | str | datetime.datetime]:
-                Python representation of the stored value, or ``None``
+                Python representation of the stored value, or `None`
                 for VT_EMPTY / VT_NULL.
         """
 
@@ -177,7 +177,7 @@ class PROPVARIANT(ctypes.Structure):
 
 def clear_propvariant(pv: PROPVARIANT) -> None:
     """
-    Calls the OLE ``PropVariantClear`` API to release resources held by
+    Calls the OLE `PropVariantClear` API to release resources held by
     a PROPVARIANT (e.g. BSTR memory).
 
     Args:
