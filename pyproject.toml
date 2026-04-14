@@ -10,7 +10,7 @@ readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.12"
 authors = [
-    { name = "Modding Forge", email = "contact@modding-forge.com" },
+    { name = "Modding Forge", email = "info@moddingforge.com" },
 ]
 keywords = ["7zip", "7z", "archive", "compression", "ctypes"]
 classifiers = [
