@@ -166,7 +166,7 @@ class PROPVARIANT(ctypes.Structure):
             pv.vt = VT_R8
             pv._data.dblVal = value
         elif isinstance(value, str):
-            # SysAllocString not used — caller must own the buffer.
+            # SysAllocString not used - caller must own the buffer.
             # For write use, allocate via OLE.
             pv.vt = VT_BSTR
             pv._data.bstrVal = value

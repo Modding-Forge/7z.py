@@ -252,7 +252,7 @@ class ArchiveReader:
 
     def get_entry(self, index: int) -> ArchiveEntry:
         """
-        Returns a fully populated :class:`~mf_7z.entry.ArchiveEntry`
+        Returns a fully populated :class:`~py7z.entry.ArchiveEntry`
         for the given index.
 
         Args:

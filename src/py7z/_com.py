@@ -101,7 +101,7 @@ _RELEASE_FUNC = com_method(_ULONG, PVOID)
 
 
 # ---------------------------------------------------------------------------
-# COMPtr – thin wrapper around a raw COM pointer returned by 7z.dll
+# COMPtr - thin wrapper around a raw COM pointer returned by 7z.dll
 # ---------------------------------------------------------------------------
 
 class COMPtr:
@@ -216,7 +216,7 @@ class COMPtr:
 
 
 # ---------------------------------------------------------------------------
-# PyCOMObject – base class for Python-implemented COM objects (callbacks)
+# PyCOMObject - base class for Python-implemented COM objects (callbacks)
 # ---------------------------------------------------------------------------
 
 class PyCOMObject:

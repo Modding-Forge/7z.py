@@ -46,5 +46,5 @@ class CustomBuildHook(BuildHookInterface):
         build_data["tag"] = f"py3-none-{plat}"
 
         dll_source: Path = Path("res") / arch / "7z.dll"
-        dll_dest: str = f"mf_7z/res/{arch}/7z.dll"
+        dll_dest: str = f"py7z/res/{arch}/7z.dll"
         build_data["force_include"][str(dll_source)] = dll_dest

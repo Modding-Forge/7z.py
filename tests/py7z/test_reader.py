@@ -12,25 +12,25 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from mf_7z.exceptions import ArchiveOpenError
+from py7z.exceptions import ArchiveOpenError
 
 
 class TestArchiveReader:
     """
-    Tests ``mf_7z.reader.ArchiveReader``.
+    Tests ``py7z.reader.ArchiveReader``.
     """
 
     def test_import(self) -> None:
         """Tests that ArchiveReader can be imported without error."""
 
         # given / when / then
-        from mf_7z import ArchiveReader  # noqa: F401
+        from py7z import ArchiveReader  # noqa: F401
 
     def test_open_nonexistent_file_raises(self, tmp_path: Path) -> None:
         """Tests that opening a missing archive raises FileNotFoundError."""
 
         # given
-        from mf_7z import ArchiveReader
+        from py7z import ArchiveReader
 
         missing: Path = tmp_path / "no_such_file.7z"
 
@@ -42,14 +42,14 @@ class TestArchiveReader:
         """Tests that __exit__ calls close() without error."""
 
         # given
-        from mf_7z.reader import ArchiveReader
+        from py7z.reader import ArchiveReader
 
         # Patch _open so no real DLL call happens
         with patch.object(ArchiveReader, "_open", return_value=None):
             reader = ArchiveReader(tmp_path / "fake.7z")
             reader._archive = None  # already "closed"
 
-        # when / then — must not raise
+        # when / then - must not raise
         with patch.object(ArchiveReader, "_open", return_value=None):
             with ArchiveReader(tmp_path / "fake.7z") as r:
                 r._archive = None

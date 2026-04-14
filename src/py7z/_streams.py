@@ -59,7 +59,7 @@ _STREAM_SEEK_END: int = 2
 
 
 # ---------------------------------------------------------------------------
-# FileInStream – IInStream backed by a file path
+# FileInStream - IInStream backed by a file path
 # ---------------------------------------------------------------------------
 
 class FileInStream(PyCOMObject):
@@ -176,7 +176,7 @@ class FileInStream(PyCOMObject):
 
 
 # ---------------------------------------------------------------------------
-# BytesInStream – IInStream backed by an in-memory bytes buffer
+# BytesInStream - IInStream backed by an in-memory bytes buffer
 # ---------------------------------------------------------------------------
 
 class BytesInStream(PyCOMObject):
@@ -269,7 +269,7 @@ class BytesInStream(PyCOMObject):
 
 
 # ---------------------------------------------------------------------------
-# BytesOutStream – IOutStream backed by an in-memory BytesIO
+# BytesOutStream - IOutStream backed by an in-memory BytesIO
 # ---------------------------------------------------------------------------
 
 class BytesOutStream(PyCOMObject):
@@ -393,7 +393,7 @@ class BytesOutStream(PyCOMObject):
 
 
 # ---------------------------------------------------------------------------
-# FileOutStream – IOutStream backed by a file on disk
+# FileOutStream - IOutStream backed by a file on disk
 # ---------------------------------------------------------------------------
 
 class FileOutStream(PyCOMObject):

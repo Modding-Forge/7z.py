@@ -1,11 +1,10 @@
 # 7z.py
 
-Python ctypes interface for **7z.dll** (the 7-Zip archive library).  
-Supports reading, extracting, and creating 7z archives with optional
-password protection and real-time progress callbacks — all via the native
+Python ctypes interface for **7z.dll** (the 7-Zip archive library).Supports reading, extracting, and creating 7z archives with optional
+password protection and real-time progress callbacks - all via the native
 7-Zip COM interface, no subprocess required.
 
-> **Windows only** — requires a 7z.dll for the matching architecture.  
+> **Windows only** - requires a 7z.dll for the matching architecture.
 > Bundles NanaZip's 7z.dll for x64, x86, and ARM64.
 
 ---
@@ -25,7 +24,7 @@ Python 3.14+ and Windows are required.
 ### List entries
 
 ```python
-from mf_7z import ArchiveReader
+from py7z import ArchiveReader
 
 with ArchiveReader("archive.7z") as reader:
     for entry in reader.list_entries():
@@ -36,7 +35,7 @@ with ArchiveReader("archive.7z") as reader:
 
 ```python
 from pathlib import Path
-from mf_7z import ArchiveReader
+from py7z import ArchiveReader
 
 with ArchiveReader("archive.7z") as reader:
     reader.extract_all(output_dir=Path("out/"))
@@ -46,7 +45,7 @@ with ArchiveReader("archive.7z") as reader:
 
 ```python
 from pathlib import Path
-from mf_7z import ArchiveWriter, ArchiveEntryInput
+from py7z import ArchiveWriter, ArchiveEntryInput
 
 entries = [ArchiveEntryInput.from_path(p) for p in Path("src/").rglob("*")]
 
@@ -57,7 +56,7 @@ with ArchiveWriter("archive.7z") as writer:
 ### Progress callbacks
 
 ```python
-from mf_7z import ArchiveWriter, ArchiveEntryInput, ProgressInfo
+from py7z import ArchiveWriter, ArchiveEntryInput, ProgressInfo
 
 def on_progress(info: ProgressInfo) -> None:
     print(info.summary)
@@ -90,24 +89,24 @@ with ArchiveReader("secret.7z", password="hunter2") as reader:
 
 ## Platform support
 
-| Wheel tag          | Architecture |
-|--------------------|--------------|
-| `win_amd64`        | x64 (64-bit) |
-| `win32`            | x86 (32-bit) |
-| `win_arm64`        | ARM64        |
+| Wheel tag     | Architecture |
+| ------------- | ------------ |
+| `win_amd64` | x64 (64-bit) |
+| `win32`     | x86 (32-bit) |
+| `win_arm64` | ARM64        |
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE).  
-Bundles **7z.dll** from [NanaZip](https://github.com/M2Team/NanaZip)
+MIT - see [LICENSE](LICENSE).
+Bundles **7z.dll**
 (LGPL-2.1-or-later).
 
 ---
 
 ## About Modding Forge
 
-7z.py was built for the Python tooling powering **[Modding Forge](https://moddingforge.com)** —
-a community dedicated to Skyrim modding.  
+7z.py was built for the Python tooling powering **[Modding Forge](https://moddingforge.com)** -
+a community dedicated to Skyrim modding.
 If you enjoy modding or want to connect with other modders, come say hi!

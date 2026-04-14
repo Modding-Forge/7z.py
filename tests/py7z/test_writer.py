@@ -9,19 +9,19 @@ from unittest.mock import patch
 
 import pytest
 
-from mf_7z.exceptions import ArchiveOpenError
+from py7z.exceptions import ArchiveOpenError
 
 
 class TestArchiveWriter:
     """
-    Tests ``mf_7z.writer.ArchiveWriter``.
+    Tests ``py7z.writer.ArchiveWriter``.
     """
 
     def test_import(self) -> None:
         """Tests that ArchiveWriter can be imported without error."""
 
         # given / when / then
-        from mf_7z import ArchiveWriter  # noqa: F401
+        from py7z import ArchiveWriter  # noqa: F401
 
     def test_written_flag_prevents_double_write(
         self, tmp_path: Path
@@ -30,7 +30,7 @@ class TestArchiveWriter:
         from __exit__."""
 
         # given
-        from mf_7z.writer import ArchiveWriter
+        from py7z.writer import ArchiveWriter
 
         out: Path = tmp_path / "test.7z"
         write_calls: list[int] = []
@@ -48,5 +48,5 @@ class TestArchiveWriter:
             # when
             writer.__exit__(None, None, None)
 
-        # then — write() must NOT have been called again
+        # then - write() must NOT have been called again
         assert len(write_calls) == 0

@@ -9,9 +9,9 @@ import os
 import time
 from pathlib import Path
 
-from mf_7z import ArchiveReader, ArchiveWriter, ProgressInfo
-from mf_7z.entry import ArchiveEntryInput
-from mf_7z.exceptions import (
+from py7z import ArchiveReader, ArchiveWriter, ProgressInfo
+from py7z.entry import ArchiveEntryInput
+from py7z.exceptions import (
     ExtractionError,
     PasswordRequiredError,
     WrongPasswordError,
@@ -174,7 +174,7 @@ def demo_extract_to_disk(archive_path: Path, output_dir: Path) -> None:
     Extracts a single entry both as bytes and to disk.
 
     This demonstrates passing *output_dir* to
-    :meth:`~mf_7z.ArchiveReader.extract_entry`.
+    :meth:`~py7z.ArchiveReader.extract_entry`.
 
     Args:
         archive_path (Path): Path to the archive.
@@ -204,7 +204,7 @@ def demo_add_with_custom_path(output_path: Path) -> None:
     """
     Creates an archive with files stored under custom archive paths.
 
-    This demonstrates using :class:`~mf_7z.ArchiveEntryInput` directly
+    This demonstrates using :class:`~py7z.ArchiveEntryInput` directly
     and overriding the *archive_path* stored inside the archive.
 
     Args:
@@ -229,8 +229,8 @@ def demo_add_with_custom_path(output_path: Path) -> None:
 
 def demo_wrong_password(archive_path: Path) -> None:
     """
-    Demonstrates :exc:`~mf_7z.exceptions.WrongPasswordError` and
-    :exc:`~mf_7z.exceptions.PasswordRequiredError` handling.
+    Demonstrates :exc:`~py7z.exceptions.WrongPasswordError` and
+    :exc:`~py7z.exceptions.PasswordRequiredError` handling.
 
     Args:
         archive_path (Path): Path to a password-protected archive.
@@ -261,7 +261,7 @@ def demo_archive_properties(archive_path: Path) -> None:
         archive_path (Path): Path to the archive to inspect.
     """
 
-    from mf_7z.entry import KPID_TYPE, KPID_SOLID, KPID_ENCRYPTED
+    from py7z.entry import KPID_TYPE, KPID_SOLID, KPID_ENCRYPTED
 
     log.info("=== Archive properties of '%s' ===", archive_path)
     with ArchiveReader(archive_path) as reader:
@@ -337,15 +337,15 @@ def demo_large_run(
 
     Generates approximately *total_bytes* of incompressible random
     binary data, then exercises create (store mode), list,
-    extract-all, and archive-property reads — all with live progress
-    reporting via :class:`~mf_7z.ProgressInfo`.
+    extract-all, and archive-property reads - all with live progress
+    reporting via :class:`~py7z.ProgressInfo`.
 
     Store mode (``compression_level=0``) is used so that the
     operation is I/O-bound rather than CPU-bound and the progress
     callbacks fire at a useful rate regardless of codec speed.
 
     Note: single-entry in-memory extraction
-    (:meth:`~mf_7z.ArchiveReader.extract_entry`) is omitted because
+    (:meth:`~py7z.ArchiveReader.extract_entry`) is omitted because
     it buffers the entire entry into RAM, which is impractical for
     GiB-sized files.
 

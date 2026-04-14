@@ -9,14 +9,14 @@ import pytest
 
 class TestProgress:
     """
-    Tests ``mf_7z.progress.ProgressInfo``.
+    Tests ``py7z.progress.ProgressInfo``.
     """
 
     def test_percent_calculation(self) -> None:
         """Tests that percent field stores the assigned value."""
 
         # given
-        from mf_7z.progress import ProgressInfo
+        from py7z.progress import ProgressInfo
 
         # when
         info = ProgressInfo(
@@ -32,7 +32,7 @@ class TestProgress:
         """Tests that percent is 0.0 when total_bytes is 0."""
 
         # given
-        from mf_7z.progress import ProgressInfo
+        from py7z.progress import ProgressInfo
 
         # when
         info = ProgressInfo(total_bytes=0, completed_bytes=0)
@@ -44,7 +44,7 @@ class TestProgress:
         """Tests that summary string includes the percentage."""
 
         # given
-        from mf_7z.progress import ProgressInfo
+        from py7z.progress import ProgressInfo
 
         info = ProgressInfo(
             total_bytes=1000,

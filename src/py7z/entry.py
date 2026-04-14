@@ -103,7 +103,7 @@ class ArchiveEntry(BaseModel):
 class ArchiveEntryInput(BaseModel):
     """
     Mutable model describing a file to add when creating or updating
-    an archive via :class:`~mf_7z.writer.ArchiveWriter`.
+    an archive via :class:`~py7z.writer.ArchiveWriter`.
     """
 
     source_path: Optional[Path]

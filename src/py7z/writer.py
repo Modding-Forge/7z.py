@@ -87,7 +87,7 @@ class ArchiveWriter:
                 When ``None`` the CLSID is derived from the file extension,
                 and defaults to 7z when unknown.
             password (Optional[str]): Encryption password.
-            compression_level (int): Compression level 0–9 (default 5).
+            compression_level (int): Compression level 0-9 (default 5).
             solid (bool): Enable solid compression (default ``True``).
             dll_path (Optional[Path]): Custom path to 7z.dll.
         """

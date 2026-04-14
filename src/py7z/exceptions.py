@@ -7,7 +7,7 @@ from __future__ import annotations
 
 class SevenZipError(Exception):
     """
-    Base exception for all mf_7z errors.
+    Base exception for all py7z errors.
     """
 
     pass

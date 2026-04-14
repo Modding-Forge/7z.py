@@ -260,8 +260,8 @@ ProgressCallback = Callable[[ProgressInfo], None]
 """
 Callback signature for progress notifications.
 
-Receives a :class:`~mf_7z.progress.ProgressInfo` on each significant
-update.  The same instance is reused across calls — do not store it.
+Receives a :class:`~py7z.progress.ProgressInfo` on each significant
+update.  The same instance is reused across calls - do not store it.
 """
 
 StreamFactory = Callable[[int], Optional[object]]
@@ -277,8 +277,8 @@ class ExtractCallback(PyCOMObject):
     ``ICryptoGetTextPassword``.
 
     The *stream_factory* callable receives the item index and returns
-    either a :class:`~mf_7z._streams.BytesOutStream` /
-    :class:`~mf_7z._streams.FileOutStream` instance or ``None`` to skip
+    either a :class:`~py7z._streams.BytesOutStream` /
+    :class:`~py7z._streams.FileOutStream` instance or ``None`` to skip
     the item.
     """
 
@@ -549,7 +549,7 @@ class UpdateCallback(PyCOMObject):
     archives.
 
     Callers provide a list of
-    :class:`~mf_7z.entry.ArchiveEntryInput` objects describing the files
+    :class:`~py7z.entry.ArchiveEntryInput` objects describing the files
     to add, and an optional progress callback.
     """
 
@@ -579,7 +579,7 @@ class UpdateCallback(PyCOMObject):
 
         Args:
             entries (list[object]): List of
-                :class:`~mf_7z.entry.ArchiveEntryInput` describing files
+                :class:`~py7z.entry.ArchiveEntryInput` describing files
                 to add.
             progress_cb (Optional[ProgressCallback]): Optional progress
                 notification callback.
@@ -691,7 +691,7 @@ class UpdateCallback(PyCOMObject):
         """
         Implements ``IArchiveUpdateCallback::GetProperty``.
 
-        Reads properties from the :class:`~mf_7z.entry.ArchiveEntryInput`
+        Reads properties from the :class:`~py7z.entry.ArchiveEntryInput`
         at position *index*.
 
         Args:
@@ -725,7 +725,7 @@ class UpdateCallback(PyCOMObject):
             if prop_id == KPID_PATH:
                 from ._propvariant import VT_BSTR
                 pv.vt = VT_BSTR
-                # Must allocate a proper BSTR — 7-Zip calls SysFreeString
+                # Must allocate a proper BSTR - 7-Zip calls SysFreeString
                 # on VT_BSTR values; a plain Python string pointer would
                 # corrupt the heap.
                 pv._data.ptr = _alloc_bstr(
