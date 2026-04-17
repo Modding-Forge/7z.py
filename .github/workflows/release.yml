@@ -8,17 +8,7 @@ on:
 jobs:
   test:
     name: Run tests
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-
-      - name: Run pytest
-        run: uv run --extra dev pytest tests/ -v
+    uses: ./.github/workflows/ci.yml
 
   build:
     name: Build wheel (${{ matrix.plat }})

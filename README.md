@@ -1,5 +1,7 @@
 # 7z.py
 
+[![PyPI - Version](https://img.shields.io/pypi/v/7z.py)](https://pypi.org/project/7z.py/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/7z.py)](https://pypi.org/project/7z.py/) [![PyPI - License](https://img.shields.io/pypi/l/7z.py)](LICENSE) [![Tests](https://github.com/Modding-Forge/7z.py/actions/workflows/ci.yml/badge.svg)](https://github.com/Modding-Forge/7z.py/actions/workflows/ci.yml)
+
 Python ctypes interface for **7z.dll** (the 7-Zip archive library).Supports reading, extracting, and creating 7z archives with optional
 password protection and real-time progress callbacks - all via the native
 7-Zip COM interface, no subprocess required.
@@ -10,6 +12,12 @@ password protection and real-time progress callbacks - all via the native
 ---
 
 ## Installation
+
+```bash
+uv add 7z.py
+```
+
+or
 
 ```bash
 pip install 7z.py
