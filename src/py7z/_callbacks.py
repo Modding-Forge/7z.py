@@ -427,7 +427,12 @@ class ExtractCallback(PyCOMObject):
         if stream is None:
             if out_stream_ptr:
                 out_stream_ptr[0] = None  # type: ignore[assignment]
-            return S_FALSE
+            # Return S_OK (not S_FALSE) so 7-zip continues processing the
+            # solid block.  S_FALSE causes the extraction engine to treat
+            # the entire remaining solid block as done and skip all
+            # subsequent items.  A NULL outStream with S_OK tells 7-zip to
+            # advance (decompress + discard) without writing.
+            return S_OK
 
         self._current_stream = stream
         if out_stream_ptr:
