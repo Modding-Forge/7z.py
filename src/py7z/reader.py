@@ -314,19 +314,22 @@ class ArchiveReader:
         """
 
         output_dir.mkdir(parents=True, exist_ok=True)
-        entries_meta: list[ArchiveEntry] = list(self.entries())
+        entries_meta: list[tuple[str, bool]] = [
+            self._get_extract_entry(index)
+            for index in range(self.count())
+        ]
 
         from ._streams import FileOutStream
 
         active_streams: list[FileOutStream] = []
 
         def stream_factory(index: int) -> Optional[FileOutStream]:
-            entry = entries_meta[index]
-            if entry.is_directory:
-                dest = output_dir / entry.path.replace("\\", "/")
+            entry_path, is_directory = entries_meta[index]
+            if is_directory:
+                dest = output_dir / entry_path.replace("\\", "/")
                 dest.mkdir(parents=True, exist_ok=True)
                 return None
-            dest = output_dir / entry.path.replace("\\", "/")
+            dest = output_dir / entry_path.replace("\\", "/")
             if dest.exists() and not overwrite:
                 return None
             stream = FileOutStream(dest)
@@ -334,7 +337,7 @@ class ArchiveReader:
             return stream
 
         def _file_name_provider(i: int) -> str:
-            return entries_meta[i].path if i < len(entries_meta) else ""
+            return entries_meta[i][0] if i < len(entries_meta) else ""
 
         self._extract(
             stream_factory,
@@ -345,6 +348,21 @@ class ArchiveReader:
         )
         for s in active_streams:
             s.close()
+
+    def _get_extract_entry(self, index: int) -> tuple[str, bool]:
+        """
+        Returns the minimal metadata needed for extraction.
+
+        Args:
+            index (int): Zero-based entry index.
+
+        Returns:
+            tuple[str, bool]: Archive-relative path and directory flag.
+        """
+
+        path_val = self._get_entry_property(index, KPID_PATH)
+        is_directory = bool(self._get_entry_property(index, KPID_IS_DIR) or False)
+        return str(path_val) if path_val is not None else "", is_directory
 
     def extract_entry(
         self,

@@ -24,7 +24,7 @@ class GUID(ctypes.Structure):
     ]
 
     @classmethod
-    def from_str(cls, guid_str: str) -> "GUID":
+    def from_str(cls, guid_str: str) -> GUID:
         """
         Creates a GUID from a standard UUID string.
 
@@ -108,7 +108,7 @@ IID_ICryptoGetTextPassword2 = _g("23170F69-40C1-278A-0000-000500110000")
 # Well-known archive format CLSIDs (ClassID from GetHandlerProperty2)
 # GUID format: 23170F69-40C1-278A-0000-01yy00000001
 CLSID_7z = _g("23170F69-40C1-278A-1000-000110070000")
-CLSID_Zip = _g("23170F69-40C1-278A-1000-000101010000")
+CLSID_Zip = _g("23170F69-40C1-278A-1000-000110010000")
 CLSID_Tar = _g("23170F69-40C1-278A-1000-000101EE0000")
 CLSID_GZip = _g("23170F69-40C1-278A-1000-000101EF0000")
 CLSID_BZip2 = _g("23170F69-40C1-278A-1000-000102020000")

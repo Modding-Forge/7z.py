@@ -10,14 +10,11 @@ round-trip: create archive on disk → extract → assert file content matches.
 from __future__ import annotations
 
 import os
+import zipfile
 from pathlib import Path
-from typing import List
-
-import pytest
 
 from py7z import ArchiveReader, ArchiveWriter
 from py7z.progress import ProgressInfo
-
 
 # ---------------------------------------------------------------------------
 # helpers
@@ -83,6 +80,29 @@ class TestExtractionRoundTrip:
 
         assert (out / "a.txt").read_bytes() == content_a
         assert (out / "b.bin").read_bytes() == content_b
+
+    def test_zip_archive_roundtrip(self, tmp_path: Path) -> None:
+        """
+        Extracts a ZIP archive using the 7-Zip ZIP handler.
+        """
+
+        archive: Path = tmp_path / "sample.zip"
+        with zipfile.ZipFile(archive, "w") as zip_file:
+            zip_file.writestr("folder/file.txt", "hello zip")
+
+        out: Path = tmp_path / "out"
+        progress_calls: list[ProgressInfo] = []
+        with ArchiveReader(archive) as reader:
+            assert reader.count() == 1
+            reader.extract_all(
+                out,
+                progress_cb=lambda info: progress_calls.append(
+                    info.model_copy()
+                ),
+            )
+
+        assert (out / "folder" / "file.txt").read_text() == "hello zip"
+        assert progress_calls
 
     def test_directory_entry_is_created(self, tmp_path: Path) -> None:
         """
@@ -572,9 +592,9 @@ class TestEntryMetadata:
         Each entry's ``path`` attribute must equal the ``archive_path``
         supplied during archive creation.
         """
+
         src = tmp_path / "src"
         src.mkdir()
-        names = ["one.txt", "sub/two.txt"]
         (src / "one.txt").write_bytes(b"1")
         (src / "two.txt").write_bytes(b"2")
 

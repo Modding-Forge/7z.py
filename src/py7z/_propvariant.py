@@ -8,7 +8,6 @@ import ctypes
 import datetime
 from typing import Optional
 
-
 # VARTYPE constants matching Windows oleauto.h
 VT_EMPTY: int = 0
 VT_NULL: int = 1
@@ -26,8 +25,18 @@ VT_UI8: int = 21
 VT_I8: int = 20
 VT_FILETIME: int = 64
 
-_EPOCH = datetime.datetime(1601, 1, 1, tzinfo=datetime.timezone.utc)
+_EPOCH = datetime.datetime(1601, 1, 1, tzinfo=datetime.UTC)
 _TICKS_PER_SECOND: int = 10_000_000
+
+_ole32 = ctypes.OleDLL("ole32.dll")
+_prop_variant_clear = _ole32.PropVariantClear
+_prop_variant_clear.argtypes = [ctypes.c_void_p]
+_prop_variant_clear.restype = ctypes.c_long
+
+_oleaut32 = ctypes.OleDLL("oleaut32.dll")
+_sys_string_len = _oleaut32.SysStringLen
+_sys_string_len.argtypes = [ctypes.c_void_p]
+_sys_string_len.restype = ctypes.c_uint
 
 
 class _PropVariantUnion(ctypes.Union):
@@ -45,7 +54,7 @@ class _PropVariantUnion(ctypes.Union):
         ("uhVal", ctypes.c_uint64),         # VT_UI8
         ("fltVal", ctypes.c_float),         # VT_R4
         ("dblVal", ctypes.c_double),        # VT_R8
-        ("bstrVal", ctypes.c_wchar_p),      # VT_BSTR (owned by OLE)
+        ("bstrVal", ctypes.c_void_p),       # VT_BSTR (owned by OLE)
         ("ptr", ctypes.c_void_p),           # generic pointer slot
         # FILETIME: two DWORDs (low, high)
         ("filetime_low", ctypes.c_uint32),
@@ -116,8 +125,11 @@ class PROPVARIANT(ctypes.Structure):
         if vt == VT_R8:
             return float(self._data.dblVal)
         if vt == VT_BSTR:
-            ptr: Optional[str] = self._data.bstrVal
-            return ptr if ptr is not None else ""
+            ptr: Optional[int] = self._data.bstrVal
+            if not ptr:
+                return ""
+            length: int = int(_sys_string_len(ptr))
+            return ctypes.wstring_at(ptr, length)
         if vt == VT_FILETIME:
             low: int = self._data.filetime_low
             # high DWORD is stored at offset 12 in the 16-byte structure
@@ -134,7 +146,7 @@ class PROPVARIANT(ctypes.Structure):
     @classmethod
     def from_python(
         cls, value: bool | int | float | str | None
-    ) -> "PROPVARIANT":
+    ) -> PROPVARIANT:
         """
         Creates a PROPVARIANT from a Python value.
 
@@ -169,7 +181,10 @@ class PROPVARIANT(ctypes.Structure):
             # SysAllocString not used - caller must own the buffer.
             # For write use, allocate via OLE.
             pv.vt = VT_BSTR
-            pv._data.bstrVal = value
+            pv._data.bstrVal = ctypes.cast(
+                ctypes.c_wchar_p(value),
+                ctypes.c_void_p,
+            ).value
         else:
             raise TypeError(f"Unsupported PROPVARIANT value type: {type(value)}")
         return pv
@@ -184,5 +199,4 @@ def clear_propvariant(pv: PROPVARIANT) -> None:
         pv (PROPVARIANT): The variant to clear.
     """
 
-    _ole32 = ctypes.OleDLL("ole32.dll")
-    _ole32.PropVariantClear(ctypes.byref(pv))
+    _prop_variant_clear(ctypes.byref(pv))
